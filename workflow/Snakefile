@@ -1,0 +1,46 @@
+# Main entrypoint of the workflow.
+from datetime import datetime
+start_time = datetime.now()
+print(start_time)
+
+# resources params
+include : "rules/common.smk"
+
+
+rule run_polish:
+    input:
+        scaffolded_asm = expand("{base_dir}/polishing/medaka/{sample}/consensus.fasta",
+            base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()))
+
+rule run_haplotig_assessment:
+    input:
+        coverage_hist = expand("{base_dir}/purge/purge_haplotigs/{sample}/{sample}_polished_histogram.png",
+            base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()))
+
+rule run_purge:
+    input:
+        coverage_hist = expand("{base_dir}/purge/purge_haplotigs/{sample}/{sample}.fasta",
+            base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()))
+
+rule run_decontamination:
+    input:
+        coverage_hist = expand("{base_dir}/quality/decontamination/{sample}/{sample}.decontaminated.fa",
+            base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()))
+
+rule run_repeats_annotation:
+    input:
+        coverage_hist = expand("{base_dir}/annotation/repeats/RepeatMasker/{sample}/{sample}.fa.out.gff",
+            base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()))
+
+include : "rules/raw_reads_processing.smk"
+include : "rules/assembly.smk"
+include : "rules/polish.smk"
+include : "rules/purge_assembly.smk"
+include : "rules/decontamination.smk"
+include : "rules/repeats_annotation.smk"
+

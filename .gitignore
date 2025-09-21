@@ -1,0 +1,5 @@
+test_data/*
+tmp_purge_haplotigs/*
+.snakemake/*
+logs/*
+data/*
