@@ -1,0 +1,2 @@
+sample	l	m	h
+INB_841	2	20	80

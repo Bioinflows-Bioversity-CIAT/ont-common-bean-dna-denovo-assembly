@@ -1,0 +1,11 @@
+channels:
+  - bioconda
+  - conda-forge
+  - defaults
+dependencies:
+  - blast=2.16.0
+  - minimap2=2.28
+  - blobtools
+  - htslib
+  - openssl
+  - seqkit

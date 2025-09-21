@@ -1,0 +1,20 @@
+
+sample_units: config/sample_units.txt
+resources_config: config/resources.yaml
+base_dir: /home/scruz/workflows/ont-common-bean-dna-denovo-assembly/results
+bigtmp: /tmp
+organism:
+  genome_size: 140000000
+
+medaka:
+  env: /opt/miniforge/envs/tf2
+  model: r1041_e82_400bps_hac_v4.3.0
+
+read_depth_path: ./config/read_depths_purge.txt
+
+nt_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/BLAST/nt/nt
+taxdump_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/taxdump
+target_taxa_id: Streptophyta
+
+annotation:
+  repeats_env: repeat_modeller

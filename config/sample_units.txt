@@ -1,0 +1,2 @@
+sample_name	read_file_path
+INB_841	/home/scruz/workflows/ont-common-bean-dna-denovo-assembly/test_data/target_reads.fq.gz
