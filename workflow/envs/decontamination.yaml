@@ -9,3 +9,4 @@ dependencies:
   - htslib
   - openssl
   - seqkit
+  - bedtools

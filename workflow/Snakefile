@@ -37,10 +37,17 @@ rule run_repeats_annotation:
             base_dir = config["base_dir"],
             sample = list(sample_units.sample_name.unique()))
 
+rule run_genes_annotation:
+    input:
+        genes_gff = expand('{base_dir}/annotation/genes/Maker/{sample}/maker2_run/{sample}_hardmasked.all.renamed.default.uniprot.gff',
+            base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()))
+
 include : "rules/raw_reads_processing.smk"
 include : "rules/assembly.smk"
 include : "rules/polish.smk"
 include : "rules/purge_assembly.smk"
 include : "rules/decontamination.smk"
 include : "rules/repeats_annotation.smk"
+include : "rules/gene_annotation.smk"
 
