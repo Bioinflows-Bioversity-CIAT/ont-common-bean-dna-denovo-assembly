@@ -15,6 +15,14 @@ read_depth_path: ./config/read_depths_purge.txt
 nt_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/BLAST/nt/nt
 taxdump_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/taxdump
 target_taxa_id: Streptophyta
-
+mpiexec: /home/scruz/software/openmpi/bin/mpiexec
 annotation:
   repeats_env: repeat_modeller
+  maker_bin: /home/scruz/software/maker/bin
+  maker_env: maker
+  augustus_specie_name: "phaseouls_vulgaris_UI-111"
+  reference_sequences:
+    transcriptome: /home/scruz/workflows/denovo_assembly/resources/Phaseolus_TSA/GAMK01.1.fsa_nt
+    proteins: /home/scruz/workflows/denovo_assembly/resources/Phaseolus_proteins/Phaseolus_protein.fa
+    uniprot_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/Swiss-Prot/uniprot_sprot.fasta
+
