@@ -1,44 +1,86 @@
-
+# Specify here the sample name and the paths to the 
+# FastQ reads
 sample_units: config/sample_units.txt
+
+# Here are specified the threads used for each rule
 resources_config: config/resources.yaml
-base_dir: /home/scruz/workflows/ont-common-bean-dna-denovo-assembly/results
+
+# Add path where you want to save the result files
+base_dir: /home/user/denovo_assembly/results
 bigtmp: /tmp
-organism:
-  genome_size: 140000000
 
-medaka:
-  env: /opt/miniforge/envs/tf2
-  model: r1041_e82_400bps_hac_v4.3.0
-
+# Here is related the sample name and the thresolds
+# to purge the assembly (identify haplotigs)
 read_depth_path: ./config/read_depths_purge.txt
 
-nt_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/BLAST/nt/nt
-taxdump_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/taxdump
-target_taxa_id: Streptophyta
-mpiexec: /home/scruz/software/openmpi/bin/mpiexec
-ngsep: /home/scruz/software/NGSEPcore/NGSEPcore_5.0.0.jar
-liftOver: /home/scruz/software/liftOver
+# Software paths
+mpiexec: /home/user/software/openmpi/bin/mpiexec
+ngsep: /home/user/software/NGSEPcore/NGSEPcore_5.0.0.jar
+liftOver: /home/user/software/liftOver
 
+# After the assembly with flye follows the polish.
+# Here are the parameters of this section of the pipeline.
+# Specify the conda environment where is installed medaka
+# If you have GPU available you need to specify the correct 
+# tensorflow or pythorch version. 
+# Additionally specify which model you want to implement
+polish:
+  medaka:
+    env: /opt/miniforge/envs/tf2
+    model: r1041_e82_400bps_hac_v4.3.0
+# Here is specified the paths to db and taxdump of 
+# ncbi nt database
+# Anything different to target taxa is considered contamination
+decontamination:
+  nt_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/BLAST/nt/nt
+  taxdump_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/taxdump
+  target_taxa_id: Streptophyta
+
+# Here is related the sample name and the thresolds
+# to purge the assembly (identify haplotigs)
+purge:
+  read_depth_path: ./config/read_depths_purge.txt
+
+# Here are specified the conda environment to run
+# RepeatModeller and RepeatMasker, aditionally 
+# is specified the conda environment where
+# Maker2 is available. 
+# augustus_specia_name is a custom model trained
+# with UI-111 data. This model is avalable in
+# the folder resources/augustus_species/phaseouls_vulgaris_UI-111
+# inside this repo. 
+# transcriptome file is the accession is available at (Bellucci et al., 2014)
+# https://www.ncbi.nlm.nih.gov/nuccore/GAMK00000000.1/
+# proteins are the pooling of protein sequences of Phaseolus genomes
+# published in Pythozome13
 annotation:
   repeats_env: repeat_modeller
-  maker_bin: /home/scruz/software/maker/bin
+  maker_bin: /home/user/software/maker/bin
   maker_env: maker
   augustus_specie_name: "phaseouls_vulgaris_UI-111"
   reference_sequences:
-    transcriptome: /home/scruz/workflows/denovo_assembly/resources/Phaseolus_TSA/GAMK01.1.fsa_nt
-    proteins: /home/scruz/workflows/denovo_assembly/resources/Phaseolus_proteins/Phaseolus_protein.fa
-    uniprot_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/Swiss-Prot/uniprot_sprot.fasta
+    transcriptome: /path/to/GAMK01.1.fsa_nt
+    proteins: /path/to/Phaseolus_protein.fa
+    uniprot_db: /path/to/Swiss-Prot/uniprot_sprot.fasta
 
+# Once identified repeat regions and genes
+# is performed the scaffolding using the linkage map
+# published by (Song et al., 2015) of 
+# Stampede x Red Hawk using the chip
+# BARCBean6K
+# https://doi.org/10.1534/g3.115.020594
+# Aditionally predicted genes are used to 
+# stablish syntenic blocks with a reference.
 scaffolding:
   linkage_map_markers: /opt/bean_fast/projects/ongoing_projects/allmaps_test/test/resources/BARCPV_SEQS.fa
   linkage_map: /opt/bean_fast/projects/ongoing_projects/allmaps_test/test/resources/gen_pos.txt
   ref_assembly_name: UI-111
   sinteny:
     UI-111:
-      peptide_seqs: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/genomes/Pvulgaris/UI-111/v1.1/annotation/PvulgarisUI111_534_v1.1.protein_primaryTranscriptOnly.fa
+      peptide_seqs: /path/to/Pvulgaris/UI-111/v1.1/annotation/PvulgarisUI111_534_v1.1.protein_primaryTranscriptOnly.fa
       prot_sufix: ".1.p"
-      gene_annot: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/genomes/Pvulgaris/UI-111/v1.1/annotation/PvulgarisUI111_534_v1.1.gene.sorted.gff3.gz
+      gene_annot: /path/to/UI-111/v1.1/annotation/PvulgarisUI111_534_v1.1.gene.sorted.gff3.gz
   dagchainer:
-    filter_script: /home/scruz/.conda/envs/dagchainer/bin/accessory_scripts/filter_repetitive_matches.pl
+    filter_script: .conda/envs/dagchainer/bin/accessory_scripts/filter_repetitive_matches.pl
     neighbor_genes_filter: 5
   allmaps_env: ALLMAPS
