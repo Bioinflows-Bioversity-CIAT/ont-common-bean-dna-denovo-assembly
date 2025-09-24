@@ -28,7 +28,7 @@ rule polish_medaka:
     log:
         'logs/{sample}/polishing/medaka.log'
     conda:
-        config["medaka"]["env"]
+        config["polish"]["medaka"]["env"]
     shell:
         """
         medaka_consensus \
@@ -36,7 +36,7 @@ rule polish_medaka:
             -d {input.draft}\
             -o tmp_polishing/{wildcards.sample} \
             -t {threads} \
-            -m {config[medaka][model]} 2> {log} && \
+            -m {config[polish][medaka][model]} 2> {log} && \
         cp -r tmp_polishing/{wildcards.sample} {base_dir}/polishing/medaka/ && \
         rm -r tmp_polishing/{wildcards.sample}
         """
