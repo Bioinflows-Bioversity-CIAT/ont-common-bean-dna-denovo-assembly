@@ -35,3 +35,12 @@ annotation:
   genes:
     maker2_threads: 30
     blastp_uniprot_threads: 30
+
+###
+# Scaffolding
+###
+scaffolding:
+  blastn_linkage_map_threads: 10
+  blastp_ref_proteins_threads: 80
+  allmaps_threads: 40
+

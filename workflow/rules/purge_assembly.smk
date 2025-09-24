@@ -1,4 +1,4 @@
-# With raw reads allign to draft
+# with raw reads allign to draft
 # the resultig bam is the input for polish
 rule overlaps_for_purge: 
     input:

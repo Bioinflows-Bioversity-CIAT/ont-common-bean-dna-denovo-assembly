@@ -43,6 +43,12 @@ rule run_genes_annotation:
             base_dir = config["base_dir"],
             sample = list(sample_units.sample_name.unique()))
 
+rule run_scaffolding:
+    input:
+        genes_gff = expand("{base_dir}/scaffolding/{sample}/allmaps/{sample}_{ref_assembly}_merged.fasta",           base_dir = config["base_dir"],
+            sample = list(sample_units.sample_name.unique()),
+            ref_assembly = config["scaffolding"]["ref_assembly_name"])
+
 include : "rules/raw_reads_processing.smk"
 include : "rules/assembly.smk"
 include : "rules/polish.smk"
@@ -50,4 +56,5 @@ include : "rules/purge_assembly.smk"
 include : "rules/decontamination.smk"
 include : "rules/repeats_annotation.smk"
 include : "rules/gene_annotation.smk"
+include : "rules/scaffolding.smk"
 

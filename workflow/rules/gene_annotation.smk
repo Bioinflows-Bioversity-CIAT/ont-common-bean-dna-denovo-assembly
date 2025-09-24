@@ -209,3 +209,21 @@ rule annotate_functional_uniprot:
         maker_functional_gff {config[annotation][reference_sequences][uniprot_db]} {input.uniprot_blastp} {input.merged_gff} > {output}
         """
 
+rule get_quality_gene_metrics:
+    input:
+        gff = rules.annotate_functional_uniprot.output,
+        decontaminated_draft = rules.get_contamination.output.decontaminated_draft,
+    output:
+        multiext(f'{base_dir}/quality/genes/{{sample}}/{{sample}}_hardmasked.all.renamed.default',
+         '_cdna.fa', '_cds.fa', '_exonDensity.txt', '_geneDensity.txt', '_proteins.fa', '_stats.txt')
+    conda:
+        "ngs"
+    log:
+        'logs/{sample}/annotation/gene_quality.log'
+    shell:
+        """
+        java -jar {config[ngsep]} TranscriptomeAnalyzer \
+        -i {input.gff} \
+        -o {base_dir}/quality/genes/{wildcards.sample}/{wildcards.sample}_hardmasked.all.renamed.default \
+        -r {input.decontaminated_draft} 2> {log}
+        """

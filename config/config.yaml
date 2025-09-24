@@ -16,6 +16,9 @@ nt_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/BLAS
 taxdump_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/taxdump
 target_taxa_id: Streptophyta
 mpiexec: /home/scruz/software/openmpi/bin/mpiexec
+ngsep: /home/scruz/software/NGSEPcore/NGSEPcore_5.0.0.jar
+liftOver: /home/scruz/software/liftOver
+
 annotation:
   repeats_env: repeat_modeller
   maker_bin: /home/scruz/software/maker/bin
@@ -26,3 +29,16 @@ annotation:
     proteins: /home/scruz/workflows/denovo_assembly/resources/Phaseolus_proteins/Phaseolus_protein.fa
     uniprot_db: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/Swiss-Prot/uniprot_sprot.fasta
 
+scaffolding:
+  linkage_map_markers: /opt/bean_fast/projects/ongoing_projects/allmaps_test/test/resources/BARCPV_SEQS.fa
+  linkage_map: /opt/bean_fast/projects/ongoing_projects/allmaps_test/test/resources/gen_pos.txt
+  ref_assembly_name: UI-111
+  sinteny:
+    UI-111:
+      peptide_seqs: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/genomes/Pvulgaris/UI-111/v1.1/annotation/PvulgarisUI111_534_v1.1.protein_primaryTranscriptOnly.fa
+      prot_sufix: ".1.p"
+      gene_annot: /opt/InterspecificCommonBeanDenovoGenomeAssembly/5.Others/references/genomes/Pvulgaris/UI-111/v1.1/annotation/PvulgarisUI111_534_v1.1.gene.sorted.gff3.gz
+  dagchainer:
+    filter_script: /home/scruz/.conda/envs/dagchainer/bin/accessory_scripts/filter_repetitive_matches.pl
+    neighbor_genes_filter: 5
+  allmaps_env: ALLMAPS
