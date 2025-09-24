@@ -34,20 +34,21 @@ def get_raw_reads(wildcards):
         return reads[0]
 
 wildcard_constraints:
-    sample = "|".join(list(sample_units.sample_name.unique()))
+    sample = "|".join(list(sample_units.sample_name.unique())),
+    ref_assebly = "|".join(list(config["scaffolding"]["ref_assembly_name"]))
 
 # After user check the coverage histogram and put the
 # thresholds this funciton reads it
 def get_read_depth_cutoffs(wildcards):
-	depths = pd.read_csv(config['read_depth_path'], sep='\t')
-	depths.set_index('sample', drop=False, inplace=True)
+    depths = pd.read_csv(config['read_depth_path'], sep='\t')
+    depths.set_index('sample', drop=False, inplace=True)
 
-	data = depths.loc[wildcards.sample]
-	cutoffs = {
-		'l' :data.l,
-		'm': data.m,
-		'h': data.h	}
-	return cutoffs
+    data = depths.loc[wildcards.sample]
+    cutoffs = {
+        'l' :data.l,
+        'm': data.m,
+        'h': data.h }
+    return cutoffs
 
 def get_big_temp(wildcards):
     # Summary: Get a large temporary directory path for jobs requiring more space.
@@ -62,3 +63,15 @@ def get_big_temp(wildcards):
             return config['bigtmp'] + "/" + "".join(random.choices(string.ascii_uppercase, k=12)) + "/"
     else:
         return tempfile.gettempdir()
+
+def get_prot_ref_assembly(wildcards):
+    protein_fasta_path =  config["scaffolding"]["sinteny"][wildcards.ref_assembly]['peptide_seqs']
+    return(protein_fasta_path)
+
+def get_gene_annot_ref_assembly(wildcards):
+    gene_annot_path = config["scaffolding"]["sinteny"][wildcards.ref_assembly]['gene_annot']
+    return(gene_annot_path)
+
+def get_protein_suffix(wildcards):
+    suffix = config["scaffolding"]["sinteny"][wildcards.ref_assembly]['prot_sufix']
+    return suffix

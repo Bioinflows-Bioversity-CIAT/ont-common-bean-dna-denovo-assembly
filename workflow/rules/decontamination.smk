@@ -69,6 +69,7 @@ rule blobtools_create_db:
         -x bestsumorder -o tmp_db 2> {log} && \
         mv tmp_db.blobDB.json {output}
         """
+
 rule blobtools_plot_table:
     input:
         blob_db = f"{base_dir}/quality/decontamination/{{sample}}/{{sample}}.blobDB.json",
