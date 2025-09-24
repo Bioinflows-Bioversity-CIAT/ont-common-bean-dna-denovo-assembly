@@ -3,3 +3,5 @@ tmp_purge_haplotigs/*
 .snakemake/*
 logs/*
 data/*
+results/*
+unmmaped
